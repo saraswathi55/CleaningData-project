@@ -6,20 +6,20 @@ library(reshape2)
 ## Loading data sets
 message('---loading data , please wait!---')
 #features names
-features <- read.table('./features.txt',col.names=c('fnum','feature.name'))$feature.name   
+features <- read.table('../features.txt',col.names=c('fnum','feature.name'))$feature.name   
 
 # read in train and test data set 
-xtrain <- read.table('./train/X_train.txt',col.names=features)
-xtest <- read.table('./test/X_test.txt',col.names=features)
+xtrain <- read.table('../train/X_train.txt',col.names=features)
+xtest <- read.table('../test/X_test.txt',col.names=features)
 
 # read in train and test subjects 
-subj.train <- read.table('./train/subject_train.txt',col.names='subjects')   # train subjects
-subj.test <- read.table('./test/subject_test.txt',col.names='subjects')   # test subjects
+subj.train <- read.table('../train/subject_train.txt',col.names='subjects')   # train subjects
+subj.test <- read.table('../test/subject_test.txt',col.names='subjects')   # test subjects
 
 # read in train and test activities 
-ytrain <- read.table('./train/y_train.txt',col.names='activity')   # y_train dataset
-ytest <- read.table('./test/y_test.txt',col.names='activity')     # y_test dataset
-activity.labels <- read.table('./activity_labels.txt',col.names=c('activity','activity.label'))
+ytrain <- read.table('../train/y_train.txt',col.names='activity')   # y_train dataset
+ytest <- read.table('../test/y_test.txt',col.names='activity')     # y_test dataset
+activity.labels <- read.table('../activity_labels.txt',col.names=c('activity','activity.label'))
 
 ##  binding train and test data sets : 
 y <- rbind(ytrain,ytest)
@@ -48,18 +48,18 @@ data <- data[,c(2,3,meancolumns,stdcolumns)]
 # 1. 't' or 'f' in the beginning are changed to 'time_' or 'frequency_'. Here I use lower case since these two are 
 # shared among variables.I use hyphen to seperate these from the rest of variable to make it more readable.
 # 2. paranthesis and dots and hyphens are omitted.
-# 3. 'Acc' , 'std' , 'Mag','Gyr' are changed to more descriptive names 'Acceleration','Standarddeviation','Magnitude','Gyroscope' respectively.
+# 3. 'Acc' , 'std' , 'Mag', 'Freq' are changed to more descriptive names 'Acceleration','Standarddeviation','Magnitude','Frequency' respectively.
 varNames<- names(data)
 varNames <- sub('^f','frequency_',varNames)
 varNames <- sub('^t','time_',varNames)
 varNames <- gsub('()','',varNames)
 varNames <- gsub('-','',varNames)
 varNames <- gsub('\\.','',varNames)
-varNames <- gsub('Acc','Accelerometer',varNames)
-varNames <- gsub('Gyro','Gyroscope',varNames)
+varNames <- gsub('Acc','Acceleration',varNames)
 varNames <- gsub('std','StandardDeviation',varNames)
 varNames <- gsub('mean','Mean',varNames)
 varNames <- gsub('Mag','Magnitude',varNames)
+varNames <- gsub('Freq','Frequency',varNames)
 
 
 # assign data's name to the renamed names 
